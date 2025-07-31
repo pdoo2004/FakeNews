@@ -114,14 +114,22 @@ class ArticleExtractor {
             contentLength: articleData.content.length
         });
         
+        // Combine headline and content for analysis
+        const fullText = (articleData.headline + ' ' + articleData.content).trim();
+        
         // Send to background script for analysis
         chrome.runtime.sendMessage({
             action: 'analyzeText',
+            text: fullText,
+            headline: articleData.headline,
+            url: articleData.url,
             data: articleData
         }, (response) => {
-            if (response && response.analysis) {
-                this.displayResults(response.analysis);
+            if (response) {
+                this.displayResults(response);
                 this.analyzed = true;
+            } else {
+                console.log('Fake News Detector: No response from background script');
             }
         });
     }
@@ -134,9 +142,16 @@ class ArticleExtractor {
         }
         
         // Only show banner for high-confidence fake news predictions
-        if (analysis.isFake && analysis.confidence > 0.7) {
+        if (analysis.prediction === 1 && analysis.confidence > 0.7) {
             this.showWarningBanner(analysis);
         }
+        
+        console.log('Fake News Detector: Analysis complete', {
+            prediction: analysis.prediction === 1 ? 'FAKE' : 'REAL',
+            confidence: Math.round(analysis.confidence * 100) + '%',
+            method: analysis.method,
+            processingTime: analysis.processingTime + 'ms'
+        });
     }
     
     showWarningBanner(analysis) {

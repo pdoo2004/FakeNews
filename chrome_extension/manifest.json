@@ -12,7 +12,7 @@
     "<all_urls>"
   ],
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background_comprehensive.js"
   },
   "action": {
     "default_popup": "popup.html",
@@ -27,7 +27,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["tfjs_model/*"],
+      "resources": ["models/*", "tfjs_model/*"],
       "matches": ["<all_urls>"]
     }
   ]

@@ -1,0 +1,99 @@
+{
+  "type": "keyword_enhanced",
+  "fake_indicators": {
+    "sensational": [
+      "breaking",
+      "shocking",
+      "unbelievable",
+      "amazing",
+      "incredible",
+      "stunning"
+    ],
+    "conspiracy": [
+      "hidden",
+      "secret",
+      "cover-up",
+      "conspiracy",
+      "exposed",
+      "revealed",
+      "leaked"
+    ],
+    "medical_claims": [
+      "miracle",
+      "cure",
+      "doctors hate",
+      "big pharma",
+      "natural remedy"
+    ],
+    "authority_doubt": [
+      "government lies",
+      "media won't tell you",
+      "experts don't want",
+      "they don't want"
+    ],
+    "urgency": [
+      "urgent",
+      "immediately",
+      "before it's too late",
+      "limited time"
+    ],
+    "absolutes": [
+      "never",
+      "always",
+      "completely",
+      "totally",
+      "absolutely",
+      "definitely"
+    ],
+    "emotional": [
+      "outrageous",
+      "disgusting",
+      "terrifying",
+      "heartbreaking",
+      "infuriating"
+    ]
+  },
+  "real_indicators": {
+    "sources": [
+      "according to",
+      "study shows",
+      "research indicates",
+      "data suggests"
+    ],
+    "institutions": [
+      "university",
+      "hospital",
+      "government",
+      "agency",
+      "department"
+    ],
+    "formal": [
+      "announced",
+      "reported",
+      "confirmed",
+      "stated",
+      "published"
+    ],
+    "measured": [
+      "approximately",
+      "about",
+      "around",
+      "estimated",
+      "roughly"
+    ],
+    "attribution": [
+      "said",
+      "told",
+      "explained",
+      "noted",
+      "mentioned"
+    ]
+  },
+  "weights": {
+    "fake_base_weight": 0.15,
+    "real_base_weight": 0.1,
+    "length_penalty": 0.05,
+    "caps_penalty": 0.02,
+    "exclamation_penalty": 0.03
+  }
+}

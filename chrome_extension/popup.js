@@ -43,17 +43,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     function checkCurrentPage(tabId) {
-        // Request analysis from background script
-        chrome.runtime.sendMessage({action: 'getAnalysis', tabId: tabId}, function(response) {
-            if (response && response.analysis) {
-                displayResult(response.analysis);
+        // Get last analysis from background script
+        chrome.runtime.sendMessage({action: 'getLastAnalysis'}, function(response) {
+            if (response) {
+                displayResult(response);
             } else {
                 // Try to trigger analysis
                 chrome.tabs.sendMessage(tabId, {action: 'analyze'}, function(contentResponse) {
                     if (chrome.runtime.lastError) {
-                        showError('Could not analyze this page');
+                        showError('Could not analyze this page. Try refreshing.');
                     } else {
-                        setTimeout(() => checkCurrentPage(tabId), 1000); // Wait and check again
+                        // Wait a bit and check again
+                        setTimeout(() => {
+                            chrome.runtime.sendMessage({action: 'getLastAnalysis'}, function(response) {
+                                if (response) {
+                                    displayResult(response);
+                                } else {
+                                    showError('Analysis not available');
+                                }
+                            });
+                        }, 1000);
                     }
                 });
             }
@@ -63,9 +72,17 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayResult(analysis) {
         currentPrediction = analysis;
         
-        if (analysis.isFake) {
-            statusDiv.textContent = '⚠️ Potentially Fake News';
-            statusDiv.className = 'status fake';
+        if (analysis.prediction === 1) {
+            if (analysis.type === 'satirical') {
+                statusDiv.textContent = '😄 Satirical/Parody Content';
+                statusDiv.className = 'status satirical';
+            } else if (analysis.type === 'conspiracy') {
+                statusDiv.textContent = '🚩 Conspiracy/Misinformation';
+                statusDiv.className = 'status conspiracy';
+            } else {
+                statusDiv.textContent = '⚠️ Potentially Fake News';
+                statusDiv.className = 'status fake';
+            }
         } else {
             statusDiv.textContent = '✅ Likely Reliable';
             statusDiv.className = 'status real';
@@ -74,6 +91,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (analysis.confidence) {
             confidenceValue.textContent = Math.round(analysis.confidence * 100);
             confidenceDiv.style.display = 'block';
+        }
+        
+        // Show processing time if available
+        if (analysis.processingTime) {
+            const timeDiv = document.createElement('div');
+            timeDiv.className = 'processing-time';
+            timeDiv.textContent = `Analyzed in ${analysis.processingTime}ms`;
+            statusDiv.appendChild(timeDiv);
         }
         
         feedbackSection.style.display = 'block';
