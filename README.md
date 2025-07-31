@@ -218,7 +218,7 @@ pip install -r requirements-minimal.txt
 If you use this project in research, please cite:
 ```
 Fake News Detector Chrome Extension
-GitHub: https://github.com/[username]/FakeNews
+GitHub: https://github.com/pdoo2004/FakeNews
 Accuracy: 90.17% on 4,403 news samples
 Real-time browser-based fake news detection
 ```
