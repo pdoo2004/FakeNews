@@ -1,0 +1,18 @@
+# Minimal requirements for core fake news detection functionality
+# Use this if you don't need BERT experiments
+
+# Core ML and Data Processing
+numpy>=2.3.0
+pandas>=2.3.0
+scikit-learn>=1.7.0
+scipy>=1.16.0
+joblib>=1.5.0
+
+# Text Processing
+nltk>=3.8
+
+# HTTP Requests (for dataset download)
+requests>=2.32.0
+
+# Installation command:
+# pip install -r requirements-minimal.txt

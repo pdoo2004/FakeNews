@@ -1,7 +1,22 @@
-numpy
-pandas
-scikit-learn
-requests
-beautifulsoup4
-nltk
-joblib
+# Core ML and Data Processing
+numpy>=2.3.0
+pandas>=2.3.0
+scikit-learn>=1.7.0
+scipy>=1.16.0
+joblib>=1.5.0
+
+# Text Processing and NLP
+nltk>=3.8
+
+# Web Scraping and HTTP Requests
+requests>=2.32.0
+
+# Deep Learning (Optional - for BERT experiments)
+torch>=2.7.0
+transformers>=4.54.0
+
+# Development and Utilities
+setuptools>=65.0
+
+# Note: beautifulsoup4 removed as it's not used in current active files
+# Note: torch and transformers are optional, only needed for BERT experiments

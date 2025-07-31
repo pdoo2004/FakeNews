@@ -28,31 +28,37 @@ A comprehensive machine learning-powered Chrome extension that detects potential
 
 ## 🏗️ Architecture
 
-### Enhanced ML Pipeline
+### 📁 Project Structure
 ```
-├── ml_pipeline/
+FakeNews/
+├── chrome_extension/              # 🚀 Active Chrome Extension
+│   ├── models/
+│   │   ├── comprehensive_model.json      # Domain + pattern detection
+│   │   └── optimized_detector_model.json # Lightweight ML (295 features)
+│   ├── background_comprehensive.js   # Multi-layered detection engine
+│   ├── contentScript.js             # Article extraction & analysis
+│   ├── popup.html/js                # User interface
+│   └── manifest.json                # Extension configuration
+├── ml_pipeline/                   # 🧠 Machine Learning Pipeline
 │   ├── data/
-│   │   └── real_dataset.csv           # 4,403 labeled news samples
+│   │   └── real_dataset.csv            # 4,403 labeled news samples
 │   ├── models/
-│   │   ├── optimized_model.pkl        # Full ensemble model (90.17% accuracy)
-│   │   └── enhanced_baseline_model.pkl # Baseline model
-│   ├── train_optimized_model.py       # Advanced ensemble training
-│   ├── create_comprehensive_model.py  # Satirical content detection
-│   ├── baseline_model.py              # TF-IDF + Logistic Regression
-│   ├── bert_model.py                  # BERT implementation (optional)
-│   └── preprocessing.py               # Text preprocessing pipeline
-```
-
-### Chrome Extension
-```
-├── chrome_extension/
-│   ├── models/
-│   │   ├── comprehensive_model.json   # Domain + pattern detection
-│   │   └── optimized_detector_model.json # Lightweight ML model (295 features)
-│   ├── background_comprehensive.js    # Multi-layered detection engine
-│   ├── contentScript.js              # Article extraction & analysis
-│   ├── popup.html/js                 # User interface
-│   └── manifest.json                 # Extension configuration
+│   │   └── optimized_model.pkl         # Full ensemble (90.17% accuracy)
+│   ├── train_optimized_model.py        # Current training script
+│   ├── create_comprehensive_model.py   # Satirical content detection
+│   ├── baseline_model.py               # Core ML components
+│   ├── bert_model.py                   # BERT implementation
+│   ├── data_loader.py                  # Dataset utilities
+│   └── preprocessing.py                # Text preprocessing
+├── legacy/                        # 📦 Previous Versions
+│   ├── chrome_extension_versions/      # Old background scripts
+│   ├── ml_training_versions/           # Previous training approaches
+│   └── models/                         # Legacy trained models
+├── experiments/                   # 🧪 Research & Experiments
+│   ├── evaluate_bert_potential.py      # BERT vs traditional ML study
+│   ├── convert_to_tfjs.py              # TensorFlow.js experiments
+│   └── create_lightweight_model.py     # Browser optimization tests
+└── venv/                         # 🐍 Python Virtual Environment
 ```
 
 ## 🧠 Detection System
@@ -81,8 +87,10 @@ python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
-cd ml_pipeline
-pip install pandas scikit-learn requests joblib scipy torch transformers
+pip install -r requirements.txt
+
+# OR for minimal installation (no BERT experiments):
+pip install -r requirements-minimal.txt
 ```
 
 ### 2. Train Models (Optional - Pre-trained Available)
@@ -163,6 +171,33 @@ python create_comprehensive_model.py
 - **False Positives**: May flag legitimate news as suspicious
 - **Topic Scope**: Less accurate on non-political content
 - **Temporal Drift**: May need retraining for emerging misinformation patterns
+
+## 📦 Dependencies
+
+### Core Requirements (`requirements.txt`)
+- **numpy**: Numerical computations and arrays
+- **pandas**: Data manipulation and analysis
+- **scikit-learn**: Machine learning algorithms (TF-IDF, Logistic Regression, etc.)
+- **scipy**: Scientific computing (sparse matrices)
+- **joblib**: Model serialization and parallel processing
+- **nltk**: Natural language processing (tokenization, stopwords)
+- **requests**: HTTP requests for dataset download
+- **torch**: PyTorch for deep learning (BERT experiments)
+- **transformers**: Hugging Face transformers (BERT models)
+
+### Minimal Requirements (`requirements-minimal.txt`)
+For users who only need core functionality without BERT experiments:
+- Excludes `torch` and `transformers` (saves ~2GB disk space)
+- Includes all packages needed for the main detection system
+
+### Installation Options
+```bash
+# Full installation (includes BERT capability)
+pip install -r requirements.txt
+
+# Minimal installation (core functionality only)
+pip install -r requirements-minimal.txt
+```
 
 ## 🔮 Future Improvements
 
