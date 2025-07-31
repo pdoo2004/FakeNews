@@ -1,0 +1,145 @@
+# 🎤 FAKE NEWS DETECTOR - DATA FLOW WITH FILES
+
+## 📋 EXECUTIVE SUMMARY (30 seconds)
+"I built a Chrome extension that detects fake news in real-time with 90.17% accuracy. It uses machine learning trained on 4,403 news articles and analyzes content in under 30ms - all locally in the browser for privacy."
+
+## 🔄 DATA FLOW WITH FILE MAPPING
+
+### TRAINING PHASE (Offline - Python)
+
+**1. Data Input**
+- 📁 **File**: `ml_pipeline/data/real_dataset.csv`
+- **Action**: Loads 4,403 labeled news articles (fake/real)
+- **Technology**: Pandas CSV reading
+
+**2. Text Preprocessing**
+- 📁 **File**: `ml_pipeline/preprocessing.py`
+- **Action**: Cleans text, removes stopwords, tokenizes
+- **Technology**: NLTK for natural language processing
+
+**3. Model Training Orchestration**
+- 📁 **File**: `ml_pipeline/train_optimized_model.py`
+- **Action**: Coordinates entire training pipeline
+- **Technology**: scikit-learn ML algorithms
+
+**4. Feature Engineering**
+- 📁 **File**: `ml_pipeline/train_optimized_model.py` (Lines 48-76)
+- **Action**: Creates 25,000 TF-IDF features (word + character n-grams)
+- **Technology**: TfidfVectorizer with ensemble approach
+
+**5. Model Training**
+- 📁 **File**: `ml_pipeline/train_optimized_model.py` (Lines 84-108)
+- **Action**: Trains Logistic Regression + Naive Bayes ensemble
+- **Technology**: VotingClassifier for ensemble learning
+
+**6. Browser Optimization**
+- 📁 **File**: `ml_pipeline/train_optimized_model.py` (Lines 137-177)
+- **Action**: Reduces 25,000 features to top 295 for browser
+- **Technology**: Feature selection and JSON serialization
+
+**7. Domain/Pattern Model Creation**
+- 📁 **File**: `ml_pipeline/create_comprehensive_model.py`
+- **Action**: Creates satirical domain lists and content patterns
+- **Technology**: Rule-based pattern matching
+
+### GENERATED MODEL FILES
+
+**8. Statistical ML Model**
+- 📁 **Generated**: `chrome_extension/models/optimized_detector_model.json`
+- **Content**: 295 features with weights for browser ML inference
+- **Size**: ~500KB (vs 50MB full model)
+
+**9. Domain/Pattern Model**
+- 📁 **Generated**: `chrome_extension/models/comprehensive_model.json`
+- **Content**: 25 domains + 121 content patterns for instant detection
+- **Size**: ~50KB
+
+### RUNTIME PHASE (Real-time - JavaScript)
+
+**10. Content Extraction**
+- 📁 **File**: `chrome_extension/contentScript.js`
+- **Action**: Extracts article text and headlines from web pages
+- **Technology**: DOM parsing with CSS selectors
+
+**11. Analysis Coordination**
+- 📁 **File**: `chrome_extension/background_comprehensive.js`
+- **Action**: Orchestrates 3-layer detection system
+- **Technology**: Chrome extension message passing
+
+**12. Layer 1: Domain Recognition**
+- 📁 **File**: `chrome_extension/background_comprehensive.js` (checkSatiricalDomain function)
+- **Action**: Instant detection of satirical/conspiracy sites
+- **Technology**: URL parsing and domain matching
+
+**13. Layer 2: Pattern Matching**
+- 📁 **File**: `chrome_extension/background_comprehensive.js` (analyzeSatiricalContent function)
+- **Action**: Searches for 121 fake news/satirical patterns
+- **Technology**: Regular expressions and string matching
+
+**14. Layer 3: Statistical ML**
+- 📁 **File**: `chrome_extension/background_comprehensive.js` (analyzeWithTrainedModel function)
+- **Action**: Runs lightweight ML model with 295 features
+- **Technology**: JavaScript ML inference with sigmoid function
+
+**15. Result Combination**
+- 📁 **File**: `chrome_extension/background_comprehensive.js` (detectFakeNews function)
+- **Action**: Combines all layers with weighted voting
+- **Technology**: Weighted ensemble prediction
+
+**16. User Interface**
+- 📁 **File**: `chrome_extension/popup.js`
+- **Action**: Displays results with confidence scores
+- **Technology**: Chrome extension popup API
+
+**17. Visual Layout**
+- 📁 **File**: `chrome_extension/popup.html`
+- **Action**: Renders UI with different warning types
+- **Technology**: HTML/CSS with dynamic styling
+
+**18. Extension Configuration**
+- 📁 **File**: `chrome_extension/manifest.json`
+- **Action**: Configures Chrome extension permissions and entry points
+- **Technology**: Chrome extension manifest v3
+
+## 📊 FILE ROLES SUMMARY
+
+### **Core Training Files (Python)**
+- `ml_pipeline/train_optimized_model.py` - **Main training orchestrator**
+- `ml_pipeline/create_comprehensive_model.py` - **Domain/pattern rule creator**
+- `ml_pipeline/preprocessing.py` - **Text preprocessing utilities**
+- `ml_pipeline/baseline_model.py` - **ML model class definitions**
+- `ml_pipeline/data/real_dataset.csv` - **Training dataset (4,403 samples)**
+
+### **Generated Model Files (JSON)**
+- `chrome_extension/models/optimized_detector_model.json` - **Statistical ML model (295 features)**
+- `chrome_extension/models/comprehensive_model.json` - **Domain lists + patterns (121 rules)**
+
+### **Runtime Detection Files (JavaScript)**
+- `chrome_extension/background_comprehensive.js` - **Main detection engine (3-layer system)**
+- `chrome_extension/contentScript.js` - **Web page content extraction**
+- `chrome_extension/popup.js` - **User interface logic**
+- `chrome_extension/popup.html` - **User interface layout**
+- `chrome_extension/manifest.json` - **Extension configuration**
+
+### **Supporting Files**
+- `requirements.txt` - **Python dependencies**
+- `README.md` - **Documentation**
+- `legacy/` - **Previous versions (archived)**
+- `experiments/` - **Research code (archived)**
+
+## 🎯 KEY INTERVIEW POINTS
+
+### **Technical Architecture:**
+"Two-phase system: Python training pipeline generates optimized models, JavaScript runtime performs real-time analysis"
+
+### **Performance Engineering:**
+"train_optimized_model.py reduces 25,000 features to 295 while maintaining 90% accuracy for browser constraints"
+
+### **Systems Integration:**
+"contentScript.js extracts content, background_comprehensive.js analyzes it through 3 layers, popup.js displays results"
+
+### **Real-World Problem Solving:**
+"Domain recognition in checkSatiricalDomain() instantly flags The Onion, while pattern matching catches conspiracy theories"
+
+### **Scalability:**
+"Local processing eliminates server costs, modular file structure allows easy model updates"
